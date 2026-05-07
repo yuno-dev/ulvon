@@ -1058,108 +1058,179 @@ li {
    ========================================== */
 
 /* Planşetlər və kiçik noutbuklar üçün (992px və aşağısı) */
-
-/* ==========================================
-   ULTRA-COMPACT MOBILE (TRENDYOL STYLE)
-   ========================================== */
-
-@media (max-width: 768px) {
-    /* Sayfa boşluklarını sıfırlıyoruz */
-    body { background-color: #f2f4f5; } /* Hafif grimsi arka fon ürünleri ön plana çıkarır */
-    
-    .container { padding: 0 8px; }
-
-    /* Header: Daha ince ve yapışkan */
-    .glass-header {
-        top: 0; width: 100%; border-radius: 0;
-        padding: 0 10px; height: 50px;
-    }
-    .nav-container { height: 50px; }
-    .logo { font-size: 1.2rem; }
-
-    /* Slider: Tam bir banner gibi */
-    .hero-slider {
-        height: 160px;
-        margin: 60px 8px 15px 8px;
-        border-radius: 10px;
-    }
-    .slide-content h1 { font-size: 1.2rem !important; }
-
-    /* Ürün Grid: Boşlukları minimuma indiriyoruz */
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr); /* Yan yana 2 tane */
-        gap: 8px; /* Trendyol tarzı dar boşluk */
-        padding: 0;
+@media (max-width: 992px) {
+    .product-detail-grid {
+        grid-template-columns: 1fr;
     }
 
-    /* Ürün Kartı: Beyaz zemin, ince kenarlık */
-    .product-card {
-        border-radius: 8px;
-        background: #fff;
-        border: 1px solid #e6e6e6;
-        box-shadow: none !important; /* Ağır gölgeleri kaldırıyoruz */
-        display: flex;
-        flex-direction: column;
+    .gallery-container {
+        padding: 20px;
     }
 
-    .product-img-wrapper {
-        height: 150px; /* Görselleri küçültüyoruz */
-        border-bottom: 1px solid #f0f0f0;
+    .main-img {
+        height: 300px;
     }
 
-    .product-info {
-        padding: 8px;
-    }
-
-    .product-title {
-        font-size: 0.8rem; /* Küçük ve okunaklı font */
-        height: 32px; /* 2 satırla sınırla */
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        white-space: normal;
-        line-height: 1.2;
-        color: #333;
-        margin-bottom: 4px;
-    }
-
-    .product-price {
-        font-size: 0.95rem;
-        color: var(--primary);
-        font-weight: 700;
-    }
-
-    .product-rating {
-        font-size: 0.65rem;
-        margin-bottom: 4px;
-    }
-
-    /* Kategori Butonları: Yuvarlak ve küçük */
-    .category-filters {
-        gap: 6px;
-        padding-bottom: 10px;
-    }
-    .filter-btn {
-        padding: 5px 12px;
-        font-size: 0.75rem;
-        border-radius: 20px;
-    }
-    
-    /* İkonları küçült */
-    .icon-btn {
-        width: 32px;
-        height: 32px;
-    }
-    .badge {
-        width: 15px;
-        height: 15px;
-        font-size: 0.6rem;
+    .product-detail-content {
+        padding: 30px;
     }
 }
 
+/* Mobil telefonlar üçün (768px və aşağısı) */
+@media (max-width: 768px) {
 
+    /* 1. Süzülən Navbarın Mobildə Yığılması */
+    .glass-header {
+        width: calc(100% - 20px);
+        padding: 0 15px;
+        top: 10px;
+    }
 
+    .nav-container {
+        height: 60px;
+    }
+
+    .logo {
+        font-size: 1.4rem;
+    }
+
+    /* 2. Mobil Hamburger Menyu (Yan tərəfdən açılan) */
+    .hamburger {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        color: var(--text-main);
+        cursor: pointer;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 80px;
+        right: -100%;
+        width: 250px;
+        background: var(--surface-glass);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        flex-direction: column;
+        padding: 20px;
+        transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        align-items: flex-start;
+        gap: 15px;
+        z-index: 99;
+    }
+
+    .nav-links.active {
+        right: 10px;
+    }
+
+    /* Menyu açılanda ekrana girir */
+
+    /* Mobildə axtarış və bəzi elementləri gizlətmək */
+    .mobile-hide {
+        display: none !important;
+    }
+
+    /* 3. Hero Bölməsi (Ana başlıq) */
+    .hero {
+        min-height: 80vh;
+        padding-top: 100px;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+
+    /* 4. Modalların (Pəncərələrin) Mobildəki Ölçüləri */
+    .modal {
+        width: 95%;
+        max-height: 85vh;
+        margin-top: 10px;
+    }
+
+    .auth-modal {
+        padding: 30px 20px;
+    }
+
+    .info-modal {
+        padding: 30px 20px;
+    }
+
+    .main-img {
+        height: 250px;
+    }
+
+    /* Məhsul şəkli mobildə kiçilir */
+    .product-detail-content h2 {
+        font-size: 1.6rem;
+    }
+
+    .product-detail-price {
+        font-size: 1.6rem;
+    }
+
+    /* 5. Footer (Aşağı Panel) Yığılması */
+    .simple-footer {
+        padding: 40px 0 20px;
+        margin-top: 60px;
+    }
+
+    .footer-links-row {
+        flex-direction: column;
+        /* Linkləri alt-alta düzür */
+        gap: 15px;
+        margin: 20px 0;
+    }
+
+    .footer-logo {
+        font-size: 1.8rem;
+    }
+
+    /* 6. Səbət (Off-canvas) Mobildə tam ekran olması */
+    .cart-sidebar {
+        width: 100%;
+        right: -100%;
+    }
+
+    /* 7. Filtrləmə Düymələri */
+    .filter-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .category-filters {
+        justify-content: center;
+    }
+}
+
+/* Çox kiçik ekranlar üçün (480px və aşağısı) */
+@media (max-width: 480px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Məhsullar yan-yana yox, alt-alta düşür */
+    .nav-actions {
+        gap: 8px;
+    }
+
+    .icon-btn {
+        width: 35px;
+        height: 35px;
+    }
+
+    /* İkonlar bir az kiçilir ki sığsın */
+}
 
 .old-price {
     text-decoration: line-through;
