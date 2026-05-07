@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="az">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ulvon | Müasir E-Ticarət</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Naviqasiya -->
+    <header class="glass-header">
+        <div class="nav-container">
+            <a href="#" class="logo">ULVON.</a>
+
+            <nav class="nav-links" id="nav-links">
+                <a href="#ana-sehife" onclick="toggleMenu()">Ana Səhifə</a>
+                <a href="#mehsullar" onclick="toggleMenu()">Kolleksiya</a>
+            </nav>
+
+            <div class="nav-actions">
+                <div class="search-box mobile-hide">
+                    <input type="text" id="search-input" placeholder="Axtarış..." onkeyup="handleSearch()">
+                </div>
+
+                <button class="icon-btn theme-toggle" onclick="toggleTheme()" title="Rejim">
+                    <svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+                </button>
+
+                <button class="icon-btn" onclick="toggleWishlist()" title="Sevimlilər">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z">
+                        </path>
+                    </svg>
+                    <span id="wishlist-count" class="badge">0</span>
+                </button>
+
+                <div id="auth-buttons">
+                    <button class="btn btn-primary btn-sm" onclick="openAuthModal('login')">Giriş</button>
+                </div>
+
+                <div id="user-profile" class="hidden">
+                    <span id="user-greeting" style="display: none;"></span>
+                    <button class="icon-btn" onclick="openProfileModal()" title="Profilim">👤</button>
+                    <button class="icon-btn text-danger" onclick="logout()" title="Çıxış">🚪</button>
+                </div>
+
+                <button class="icon-btn cart-toggle-btn" onclick="toggleCart()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 20a1 1 0 100-2 1 1 0 000 2zM20 20a1 1 0 100-2 1 1 0 000 2z" />
+                        <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
+                    </svg>
+                    <span id="cart-count" class="badge">0</span>
+                </button>
+
+                <button class="hamburger" onclick="toggleMenu()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12h18M3 6h18M3 18h18" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+    <main>
+<section id="ana-sehife" class="hero-slider">
+    <div class="slides-container" id="slides-container">
+        <div class="slide active" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1470&auto=format&fit=crop');">
+            <div class="slide-content">
+                <span class="badge-promo">Açılışa Özəl</span>
+                <h1>Gələcəyin Stili <br><span class="highlight">Ulvon-da</span></h1>
+                <p><b>YENI2026</b> promo kodundan istifadə et və <br> ilk sifarişində <b>10% endirim</b> qazan!</p>
+                <a href="#mehsullar" class="btn btn-primary btn-large">İndi Al</a>
+            </div>
+        </div>
+
+        <div class="slide" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1549194388-f61be84a6e9e?q=80&w=1472&auto=format&fit=crop');">
+            <div class="slide-content">
+                <span class="badge-promo">Xüsusi Təklif</span>
+                <h1>Sürətli və <br><span class="highlight">Pulsuz Çatdırılma</span></h1>
+                <p><b>50 AZN</b>-dən yuxarı bütün sifarişlərdə <br> çatdırılma haqqını biz ödəyirik!</p>
+                <a href="#mehsullar" class="btn btn-primary btn-large">Kolleksiyanı Kəşf Et</a>
+            </div>
+        </div>
+    </div>
+    
+    <button class="slider-nav prev" onclick="moveSlide(-1)">❮</button>
+    <button class="slider-nav next" onclick="moveSlide(1)">❯</button>
+</section>
+
+        <section id="mehsullar" class="products container">
+            <h2 class="section-title reveal">Kolleksiya</h2>
+
+<div class="filter-controls reveal active">
+    <div class="category-filters">
+        <button class="filter-btn active" onclick="setCategoryFilter('All')">Hamısı</button>
+        <button class="filter-btn" onclick="setCategoryFilter('Ayaqqabı')">Ayaqqabı</button>
+        <button class="filter-btn" onclick="setCategoryFilter('Geyim')">Geyim</button>
+        <button class="filter-btn" onclick="setCategoryFilter('Aksesuar')">Aksesuar</button>
+    </div>
+
+    <div class="price-filter">
+        <span>Qiymət:</span>
+        <input type="number" id="min-price" placeholder="Min" oninput="handlePriceFilter()">
+        <span>-</span>
+        <input type="number" id="max-price" placeholder="Max" oninput="handlePriceFilter()">
+    </div>
+
+    <select id="sort-select" onchange="handleSort()" class="sort-select">
+        <option value="default">Sıralama: Standart</option>
+        <option value="low-to-high">Ucuzdan Bahaya</option>
+        <option value="high-to-low">Bahadan Ucuza</option>
+    </select>
+</div>
+
+            <div class="product-grid" id="product-list"></div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="simple-footer">
+        <div class="container">
+            <a href="#" class="logo footer-logo">ULVON.</a>
+            <div class="footer-links-row">
+                <a href="javascript:void(0)" onclick="openInfoModal('delivery')">Çatdırılma və Ödəniş</a>
+                <a href="javascript:void(0)" onclick="openInfoModal('returns')">Qaytarma Şərtləri</a>
+                <a href="javascript:void(0)" onclick="openInfoModal('warranty')">Zəmanət</a>
+                <a href="javascript:void(0)" onclick="openInfoModal('contact')">Əlaqə</a>
+            </div>
+            <p class="copyright">&copy; 2026 ULVON. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+    <!-- Səbət (Off-canvas) -->
+    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+    <aside class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>Səbətiniz</h2>
+            <button class="close-btn" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total"><span>Cəmi:</span><span id="cart-total-price">0.00 ₼</span></div>
+            <button class="btn btn-primary btn-full" onclick="checkout()">Sifarişi Təsdiqlə</button>
+        </div>
+    </aside>
+
+    <!-- Məhsul Modalı (Qalereya ilə) -->
+    <div class="modal-overlay" id="product-modal-overlay" onclick="closeModals(event)">
+        <div class="modal product-modal">
+            <button class="close-btn modal-close" onclick="closeProductModal()">&times;</button>
+            <div class="modal-body" id="product-modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Giriş/Qeydiyyat Modalı -->
+    <div class="modal-overlay" id="auth-modal-overlay" onclick="closeModals(event)">
+        <div class="modal auth-modal glass">
+            <button class="close-btn modal-close" onclick="closeAuthModal()">&times;</button>
+            <h2 id="auth-title">Giriş</h2>
+            <form id="auth-form">
+                <div class="input-group" id="name-group" style="display: none;">
+                    <label>Adınız</label><input type="text" id="auth-name" placeholder="Adınızı daxil edin">
+                </div>
+                <div class="input-group">
+                    <label>E-poçt</label><input type="email" id="auth-email" required placeholder="E-poçt ünvanı">
+                </div>
+                <div class="input-group">
+                    <label>Şifrə</label><input type="password" id="auth-pass" required placeholder="Şifrəniz">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" id="auth-submit">Daxil Ol</button>
+            </form>
+            <p class="auth-switch"><span id="auth-switch-text">Hesabınız yoxdur?</span> <a href="#"
+                    id="auth-switch-link" onclick="toggleAuthMode()">Qeydiyyatdan keçin</a></p>
+        </div>
+    </div>
+
+    <!-- İstifadəçi Kabineti (Profil və Sifarişlər) -->
+    <div class="modal-overlay" id="profile-modal-overlay" onclick="closeModals(event)">
+        <div class="modal profile-modal glass">
+            <button class="close-btn modal-close" onclick="closeProfileModal()">&times;</button>
+            <h2>Mənim Profilim</h2>
+            <div class="profile-info" id="profile-info"></div>
+            <h3 style="margin-top: 30px; margin-bottom: 15px;">Sifariş Tarixçəm</h3>
+            <div class="order-history" id="order-history-list"></div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="info-modal-overlay" onclick="closeModals(event)">
+        <div class="modal info-modal glass">
+            <button class="close-btn modal-close" onclick="closeInfoModal()">&times;</button>
+            <h2 id="info-title">Başlıq</h2>
+            <div class="info-content-body" id="info-content">
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+    <script src="script.js"></script>
+</body>
+
+</html>
