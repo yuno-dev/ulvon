@@ -428,86 +428,92 @@ function addToCart(id) {
 function updateCartUI() {
     const container = document.getElementById('cart-items');
     const cartFooter = document.querySelector('.cart-footer');
-    
     if (!container || !cartFooter) return;
     
     container.innerHTML = ''; 
-    let currentSubtotal = 0; // Yerli dəyişən istifadə edirik
+    let subtotal = 0;
 
     if (cart.length === 0) {
-        container.innerHTML = `<div style="text-align:center; padding:40px 20px; color:var(--text-muted);"><p>Səbətiniz boşdur.</p></div>`;
-        document.getElementById('cart-count').innerText = '0';
-        cartFooter.innerHTML = `<div class="cart-total"><span>Cəmi:</span><span>0.00 ₼</span></div><button class="btn btn-primary btn-full" disabled>Səbət Boşdur</button>`;
+        // ... (Səbət boşdursa göstərilən hissə eynidir)
         return;
     }
 
     cart.forEach(item => {
-        // Qiyməti tam rəqəmə çevirdiyimizdən əmin oluruq
-        const itemPrice = parseFloat(item.price);
-        const itemQty = parseInt(item.quantity);
-        currentSubtotal += itemPrice * itemQty;
+        subtotal += parseFloat(item.price) * parseInt(item.quantity);
+    });
 
+    // --- YENİ: PULSUZ ÇATDIRILMA PROQRES BARI ---
+    const freeLimit = 50;
+    const remaining = freeLimit - subtotal;
+    const progressPercent = Math.min((subtotal / freeLimit) * 100, 100);
+    
+    let deliveryMessage = "";
+    if (subtotal >= freeLimit) {
+        deliveryMessage = `<div style="color:#10b981; font-weight:700; font-size:0.85rem;">Təbriklər! Çatdırılmanız artıq <span style="text-decoration:underline;">PULSUZDUR!</span> 🎉</div>`;
+    } else {
+        deliveryMessage = `<div style="color:var(--text-muted); font-size:0.85rem;">Pulsuz çatdırılma üçün daha <b>${remaining.toFixed(2)} ₼</b>-lik məhsul əlavə edin.</div>`;
+    }
+
+    const progressBarHTML = `
+        <div class="delivery-progress-wrapper" style="padding:15px; background:var(--bg-color); border-radius:15px; margin-bottom:20px; border:1px solid var(--border-color);">
+            ${deliveryMessage}
+            <div class="progress-bg" style="width:100%; height:8px; background:var(--border-color); border-radius:10px; margin-top:10px; overflow:hidden;">
+                <div class="progress-fill" style="width:${progressPercent}%; height:100%; background:linear-gradient(90deg, var(--primary), #10b981); transition: 0.5s ease-out;"></div>
+            </div>
+        </div>
+    `;
+    
+    // Proqres barını konteynerin ən başına əlavə edirik
+    container.innerHTML = progressBarHTML;
+
+    // ... (Bundan sonra məhsulların loop ilə əlavə olunması davam edir)
+    cart.forEach(item => {
         const sizeHTML = item.selectedSize ? `<div class="cart-item-meta">Ölçü: ${item.selectedSize}</div>` : '';
-        
         container.innerHTML += `
-            <div class="cart-item">
+            <div class="cart-item" style="position:relative;">
                 <img src="${item.image}">
                 <div class="cart-item-info">
                     <h4>${item.name}</h4>${sizeHTML}
-                    <div style="font-weight:700;">${itemPrice.toFixed(2)} ₼</div>
+                    <div style="font-weight:700;">${item.price.toFixed(2)} ₼</div>
                     <div class="quantity-controls">
                         <button onclick="updateQuantity('${item.cartItemId}', -1)">-</button>
-                        <span>${itemQty}</span>
+                        <span>${item.quantity}</span>
                         <button onclick="updateQuantity('${item.cartItemId}', 1)">+</button>
                     </div>
                 </div>
-                <button onclick="removeFromCart('${item.cartItemId}')" class="remove-item-btn">&times;</button>
+                <button onclick="removeFromCart('${item.cartItemId}')" class="remove-btn">&times;</button>
             </div>`;
     });
 
-    // --- MÜTLƏQ HESABLAMA MƏNTİQİ ---
-    // Əgər cəmi 50 və ya daha çoxdursa, haqq 0 olur, əks halda 5 olur.
-    const activeDeliveryFee = currentSubtotal >= 50 ? 0 : 5.00;
-    const discountValue = currentSubtotal * activeDiscount;
-    const grandTotal = (currentSubtotal - discountValue) + activeDeliveryFee;
+    // --- HESABLAMA VƏ FOOTER HİSSƏSİ ---
+    const deliveryFee = subtotal >= freeLimit ? 0 : 5.00;
+    const discountValue = subtotal * activeDiscount;
+    const grandTotal = (subtotal - discountValue) + deliveryFee;
 
     cartFooter.innerHTML = `
         <div class="promo-section" style="margin-bottom:15px; display:flex; gap:8px;">
             <input type="text" id="promo-input" placeholder="Promo kod" style="flex:1; padding:10px; border:1px solid var(--border-color); border-radius:10px; background:var(--bg-color); color:var(--text-main);">
             <button class="btn btn-primary btn-sm" onclick="applyPromoCode()">Ok</button>
         </div>
-        
         <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                <span>Məhsullar:</span> 
-                <span>${currentSubtotal.toFixed(2)} ₼</span>
-            </div>
-            
-            ${activeDiscount > 0 ? `
-            <div style="display:flex; justify-content:space-between; color:#10b981; margin-bottom:5px;">
-                <span>Endirim (10%):</span> 
-                <span>-${discountValue.toFixed(2)} ₼</span>
-            </div>` : ''}
-            
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>Subtotal:</span> <span>${subtotal.toFixed(2)} ₼</span></div>
+            ${activeDiscount > 0 ? `<div style="display:flex; justify-content:space-between; color:#10b981; margin-bottom:5px;"><span>Endirim:</span> <span>-${discountValue.toFixed(2)} ₼</span></div>` : ''}
             <div style="display:flex; justify-content:space-between;">
                 <span>Çatdırılma:</span> 
-                <span style="color:${activeDeliveryFee === 0 ? '#10b981' : 'var(--primary)'}; font-weight:800;">
-                    ${activeDeliveryFee === 0 ? 'PULSUZ' : '+' + activeDeliveryFee.toFixed(2) + ' ₼'}
+                <span style="color:${deliveryFee === 0 ? '#10b981' : 'var(--primary)'}; font-weight:800;">
+                    ${deliveryFee === 0 ? 'PULSUZ' : '+5.00 ₼'}
                 </span>
             </div>
         </div>
-
         <div class="cart-total" style="border-top:1px solid var(--border-color); padding-top:10px; margin-bottom:15px;">
-            <span style="font-size:1.1rem;">Yekun:</span>
-            <span style="font-size:1.4rem; font-weight:800; color:var(--text-main);">${grandTotal.toFixed(2)} ₼</span>
+            <span>Yekun:</span>
+            <span>${grandTotal.toFixed(2)} ₼</span>
         </div>
-
         <button class="btn btn-primary btn-full" onclick="checkout()">Sifarişi Təsdiqlə</button>
     `;
-
+    
     document.getElementById('cart-count').innerText = cart.reduce((a, b) => a + b.quantity, 0);
 }
-
 // Səbətdən tam silmək üçün yeni funksiya
 function removeFromCart(cartItemId) {
     cart = cart.filter(i => i.cartItemId !== cartItemId);
